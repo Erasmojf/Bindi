@@ -1,13 +1,20 @@
 import 'package:bindi/screens/base/base_screen.dart';
+import 'package:bindi/stores/page_store.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
   await initializeParse();
+  setupLocators();
   runApp(MyApp());
 
 
+}
+
+void setupLocators(){
+  GetIt.I.registerSingleton(PageStore());
 }
 
 Future<void> initializeParse() async {
@@ -28,7 +35,13 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Bindi',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primaryColor: Colors.purple,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+        scaffoldBackgroundColor: Colors.purple,
+        appBarTheme: AppBarTheme(
+          elevation: 0,
+        ),
+        cursorColor: Colors.orange,
       ),
       home: BaseScreen(),
     );
