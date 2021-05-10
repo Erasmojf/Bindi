@@ -1,3 +1,5 @@
+import 'package:bindi/models/user.dart';
+import 'package:bindi/repositories/user_repository.dart';
 import 'package:mobx/mobx.dart';
 import 'package:bindi/helpers/extensions.dart';
 part 'signup_store.g.dart';
@@ -108,7 +110,14 @@ abstract class _SignupStore with Store {
   Future<void> _signUp() async {
     loading = true;
 
-    await Future.delayed(Duration(seconds: 3));
+    final user = User(
+      name: name,
+      email: email,
+      phone: phone,
+      password: password,
+    );
+
+    await UserRepository().signUp(user);
 
     loading = false;
   }
