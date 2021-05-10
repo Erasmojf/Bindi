@@ -19,6 +19,9 @@ abstract class _SignupStore with Store {
   bool loading = false;
 
   @observable
+  String error;
+
+  @observable
   String confirmPassword;
 
   @action
@@ -117,7 +120,12 @@ abstract class _SignupStore with Store {
       password: password,
     );
 
-    await UserRepository().signUp(user);
+    try{
+    final resultUser = await UserRepository().signUp(user);
+    print(resultUser);
+    } catch (e) {
+        error = e;
+    }
 
     loading = false;
   }
