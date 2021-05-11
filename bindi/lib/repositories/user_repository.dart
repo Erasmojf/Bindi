@@ -24,7 +24,7 @@ class UserRepository {
     }
   }
 
-  User mapParseToUser(ParseUser parseUser){
+  User mapParseToUser(ParseUser parseUser) {
     return User(
       id: parseUser.objectId,
       name: parseUser.get(keyUserName),

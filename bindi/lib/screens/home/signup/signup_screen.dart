@@ -36,7 +36,8 @@ class SignUpScreen extends StatelessWidget {
                     Observer(builder: (_) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8),
-                        child: ErrorBox(message: signupStore.error,
+                        child: ErrorBox(
+                          message: signupStore.error,
                         ),
                       );
                     }),

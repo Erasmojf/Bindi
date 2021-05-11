@@ -1,7 +1,11 @@
 import 'package:bindi/screens/home/signup/signup_screen.dart';
+import 'package:bindi/stores/login_store.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 
 class LoginScreen extends StatelessWidget {
+  final LoginStore loginStore = LoginStore();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,13 +49,18 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    TextField(
-                      decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        isDense: true,
-                      ),
-                      keyboardType: TextInputType.emailAddress,
-                    ),
+                    Observer(builder: (_) {
+                      return TextField(
+                        enabled: !loginStore.loading,
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          isDense: true,
+                          errorText: loginStore.emailError,
+                        ),
+                        keyboardType: TextInputType.emailAddress,
+                        onChanged: loginStore.setEmail,
+                      );
+                    }),
                     SizedBox(
                       height: 16.0,
                     ),
@@ -83,30 +92,59 @@ class LoginScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    TextField(
-                      decoration: InputDecoration(
-                        border: const OutlineInputBorder(),
-                        isDense: true,
-                      ),
-                      obscureText: true,
-                    ),
-                    Container(
-                      height: 40,
-                      margin: const EdgeInsets.only(top: 20, bottom: 12),
-                      child: ElevatedButton(
-                        child: Text('ENTRAR'),
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.orange,
-                          onPrimary: Colors.white,
-                          textStyle: TextStyle(
-                            fontSize: 16,
-                          ),
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(22)),
+                    Observer(builder: (_) {
+                      return TextField(
+                        enabled: !loginStore.loading,
+                        decoration: InputDecoration(
+                          border: const OutlineInputBorder(),
+                          isDense: true,
+                          errorText: loginStore.passwordError,
                         ),
-                        onPressed: () {},
-                      ),
-                    ),
+                        obscureText: true,
+                        onChanged: loginStore.setPassword,
+                      );
+                    }),
+                    Observer(builder: (_) {
+                      return Container(
+                        height: 40,
+                        margin: const EdgeInsets.only(top: 20, bottom: 12),
+                        child: RaisedButton(
+                          color: Colors.orange,
+                          disabledColor: Colors.orange.withAlpha(120),
+                          child: loginStore.loading
+                              ? CircularProgressIndicator(
+                            valueColor:
+                            AlwaysStoppedAnimation(Colors.white),
+                          )
+                              : Text('ENTRAR'),
+                          textColor: Colors.white,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20)),
+                          onPressed: loginStore.loginPressed,
+                        ),
+                      );
+                    }),
+                   // Observer(builder: (_) {
+                   //   return  Container(
+                   //     height: 40,
+                   //     margin: const EdgeInsets.only(top: 20, bottom: 12),
+                   //     child: ElevatedButton(
+                   //
+                   //       child: Text('ENTRAR'),
+                   //       style: ElevatedButton.styleFrom(
+                   //         primary: Colors.orange,
+                   //         onPrimary: Colors.white,
+                   //         textStyle: TextStyle(
+                   //           fontSize: 16,
+                   //         ),
+                   //         shape: RoundedRectangleBorder(
+                   //             borderRadius: BorderRadius.circular(22)),
+                   //       ),
+                   //       onPressed: loginStore.loginPressed,
+                   //     ),
+                   //   );
+                   // }),
                     Divider(
                       color: Colors.black,
                     ),
