@@ -1,5 +1,7 @@
 import 'package:bindi/models/user.dart';
 import 'package:bindi/repositories/user_repository.dart';
+import 'package:bindi/stores/user_manager_store.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:bindi/helpers/extensions.dart';
 part 'signup_store.g.dart';
@@ -122,6 +124,7 @@ abstract class _SignupStore with Store {
 
     try{
     final resultUser = await UserRepository().signUp(user);
+    GetIt.I<UserManagerStore>().setUser(resultUser);
     print(resultUser);
     } catch (e) {
         error = e;
