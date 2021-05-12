@@ -1,3 +1,4 @@
+import 'package:bindi/screens/create/create_screen.dart';
 import 'package:bindi/screens/home/home_screen.dart';
 import 'package:bindi/stores/page_store.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,7 @@ class _BaseScreenState extends State<BaseScreen> {
         physics: NeverScrollableScrollPhysics(),
         children: [
           HomeScreen(),
-          Container(color: Colors.blue,),
+          CreateScreen(),
           Container(color: Colors.red,),
           Container(color: Colors.amber,),
           Container(color: Colors.purple,)
