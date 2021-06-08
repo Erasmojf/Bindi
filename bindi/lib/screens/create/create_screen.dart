@@ -60,7 +60,7 @@ class CreateScreen extends StatelessWidget {
               ),
               keyboardType: TextInputType.number,
               inputFormatters: [
-                WhitelistingTextInputFormatter.digitsOnly,
+                FilteringTextInputFormatter.digitsOnly,
                 RealInputFormatter(centavos: true),
               ],
             ),
