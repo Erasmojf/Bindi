@@ -1,4 +1,4 @@
-import 'package:bindi/screens/category/category_screen.dart';
+import 'package:bindi/screens/base/base_screen.dart';
 import 'package:bindi/stores/category_store.dart';
 import 'package:bindi/stores/page_store.dart';
 import 'package:bindi/stores/user_manager_store.dart';
@@ -45,7 +45,7 @@ class MyApp extends StatelessWidget {
         ),
         cursorColor: Colors.orange,
       ),
-      home: CategoryScreen(),
+      home: BaseScreen(),
     );
   }
 }
