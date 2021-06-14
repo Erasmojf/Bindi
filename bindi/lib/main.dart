@@ -1,3 +1,4 @@
+import 'package:bindi/repositories/ibge_repository.dart';
 import 'package:bindi/screens/base/base_screen.dart';
 import 'package:bindi/stores/category_store.dart';
 import 'package:bindi/stores/page_store.dart';
@@ -11,6 +12,8 @@ void main() async {
   await initializeParse();
   setupLocators();
   runApp(MyApp());
+
+  IBGERepository().getUFList().then((value) {});
 }
 
 void setupLocators() {
