@@ -16,6 +16,7 @@ abstract class _CategoryStore with Store {
   @computed
   List<Category> get allCategoryList => List.from(categoryList)
     ..insert(0, Category(id: '*', description: 'Todas'));
+
   @action
   void setCategories(List<Category> categories) {
     categoryList.clear();
