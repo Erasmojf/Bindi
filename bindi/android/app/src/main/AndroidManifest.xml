@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="br.com.erasmo.bindi">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:icon="@mipmap/ic_launcher"
         android:label="bindi">
