@@ -9,7 +9,7 @@ part of 'cep_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$CepStore on _CepStore, Store {
-  Computed<String>? _$clearCepComputed;
+  Computed<String> _$clearCepComputed;
 
   @override
   String get clearCep => (_$clearCepComputed ??=

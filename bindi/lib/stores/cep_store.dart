@@ -17,7 +17,7 @@ abstract class _CepStore with Store {
     });
   }
   @observable
-  String cep;
+  String cep = '';
 
   @action
   void setCep(String value) => cep = value;
