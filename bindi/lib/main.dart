@@ -1,4 +1,3 @@
-import 'package:bindi/repositories/cep_repository.dart';
 import 'package:bindi/screens/base/base_screen.dart';
 import 'package:bindi/stores/category_store.dart';
 import 'package:bindi/stores/page_store.dart';
@@ -12,9 +11,6 @@ void main() async {
   await initializeParse();
   setupLocators();
   runApp(MyApp());
-
-  // IBGERepository().getUFList().then((value) {});
-  CepRepository().getAddressFromApi('13.087-000').then((value) => print(value));
 }
 
 void setupLocators() {
