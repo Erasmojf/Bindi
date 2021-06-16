@@ -24,6 +24,21 @@ mixin _$CreateStore on _CreteStore, Store {
     });
   }
 
+  final _$hidePhoneAtom = Atom(name: '_CreteStore.hidePhone');
+
+  @override
+  bool get hidePhone {
+    _$hidePhoneAtom.reportRead();
+    return super.hidePhone;
+  }
+
+  @override
+  set hidePhone(bool value) {
+    _$hidePhoneAtom.reportWrite(value, super.hidePhone, () {
+      super.hidePhone = value;
+    });
+  }
+
   final _$_CreteStoreActionController = ActionController(name: '_CreteStore');
 
   @override
@@ -38,9 +53,21 @@ mixin _$CreateStore on _CreteStore, Store {
   }
 
   @override
+  void setHidePhone(bool value) {
+    final _$actionInfo = _$_CreteStoreActionController.startAction(
+        name: '_CreteStore.setHidePhone');
+    try {
+      return super.setHidePhone(value);
+    } finally {
+      _$_CreteStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-category: ${category}
+category: ${category},
+hidePhone: ${hidePhone}
     ''';
   }
 }
