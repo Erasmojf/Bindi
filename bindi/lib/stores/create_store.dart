@@ -1,5 +1,9 @@
+import 'package:bindi/models/ad.dart';
 import 'package:bindi/models/adress.dart';
 import 'package:bindi/models/category.dart';
+import 'package:bindi/repositories/ad_repository.dart';
+import 'package:bindi/stores/user_manager_store.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 import 'cep_store.dart';
@@ -130,5 +134,18 @@ abstract class _CreteStore with Store {
   @action
   void invalidSendPressed() => showErrors = true;
 
-  void _send() {}
+  void _send() {
+    final ad = Ad();
+
+    ad.title = title;
+    ad.description = description;
+    ad.category = category;
+    ad.price = price;
+    ad.hidePhone = hidePhone;
+    ad.images = images;
+    ad.address = address;
+    ad.user = GetIt.I<UserManagerStore>().user;
+
+    AdRepository().save(ad);
+  }
 }
