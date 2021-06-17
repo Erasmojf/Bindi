@@ -1,4 +1,5 @@
 import 'package:bindi/components/custom_drawer/custom_drawer.dart';
+import 'package:bindi/components/error_box.dart';
 import 'package:bindi/stores/create_store.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
@@ -39,77 +40,107 @@ class CreateScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
             ),
             elevation: 8,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ImagesField(createStore),
-                Observer(builder: (_) {
-                  return TextFormField(
-                    onChanged: createStore.setTitle,
-                    decoration: InputDecoration(
-                      labelText: 'Titulo *',
-                      labelStyle: labelStyle,
-                      contentPadding: contentPadding,
-                      errorText: createStore.titileError,
-                    ),
-                  );
-                }),
-                Observer(
-                  builder: (_) {
-                    return TextFormField(
-                      onChanged: createStore.setDescription,
-                      decoration: InputDecoration(
-                        labelText: 'Descrição *',
-                        labelStyle: labelStyle,
-                        contentPadding: contentPadding,
-                        errorText: createStore.descriptionError,
-                      ),
-                      maxLines: null,
-                    );
-                  },
-                ),
-                CategoryField(createStore),
-                CepField(createStore),
-                Observer(
-                  builder: (_) {
-                    return TextFormField(
-                      onChanged: createStore.setPrice,
-                      decoration: InputDecoration(
-                          labelText: 'Preço *',
-                          labelStyle: labelStyle,
-                          contentPadding: contentPadding,
-                          prefixText: 'R\$ ',
-                          errorText: createStore.priceError),
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                        RealInputFormatter(centavos: true),
-                      ],
-                    );
-                  },
-                ),
-                HidePhoneField(createStore),
-                Observer(builder: (_) {
-                  return SizedBox(
-                    height: 50,
-                    child: GestureDetector(
-                      onTap: createStore.invalidSendPressed,
-                      child: RaisedButton(
-                        child: Text(
-                          'Enviar',
-                          style: TextStyle(fontSize: 18),
+            child: Observer(
+              builder: (_) {
+                if (createStore.loading)
+                  return Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      children: [
+                        Text(
+                          'Salvando anúncio',
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.purple,
+                          ),
                         ),
-                        textColor: Colors.white,
-                        color: Colors.orange,
-                        disabledColor: Colors.orange.withAlpha(120),
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        onPressed: createStore.sendPressed,
-                      ),
+                        const SizedBox(height: 16),
+                        CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation(Colors.purple),
+                        )
+                      ],
                     ),
                   );
-                }),
-              ],
+                else
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ImagesField(createStore),
+                      Observer(builder: (_) {
+                        return TextFormField(
+                          onChanged: createStore.setTitle,
+                          decoration: InputDecoration(
+                            labelText: 'Titulo *',
+                            labelStyle: labelStyle,
+                            contentPadding: contentPadding,
+                            errorText: createStore.titileError,
+                          ),
+                        );
+                      }),
+                      Observer(
+                        builder: (_) {
+                          return TextFormField(
+                            onChanged: createStore.setDescription,
+                            decoration: InputDecoration(
+                              labelText: 'Descrição *',
+                              labelStyle: labelStyle,
+                              contentPadding: contentPadding,
+                              errorText: createStore.descriptionError,
+                            ),
+                            maxLines: null,
+                          );
+                        },
+                      ),
+                      CategoryField(createStore),
+                      CepField(createStore),
+                      Observer(
+                        builder: (_) {
+                          return TextFormField(
+                            onChanged: createStore.setPrice,
+                            decoration: InputDecoration(
+                                labelText: 'Preço *',
+                                labelStyle: labelStyle,
+                                contentPadding: contentPadding,
+                                prefixText: 'R\$ ',
+                                errorText: createStore.priceError),
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                              RealInputFormatter(centavos: true),
+                            ],
+                          );
+                        },
+                      ),
+                      HidePhoneField(createStore),
+                      Observer(
+                        builder: (_) {
+                          return ErrorBox(message: createStore.error);
+                        },
+                      ),
+                      Observer(builder: (_) {
+                        return SizedBox(
+                          height: 50,
+                          child: GestureDetector(
+                            onTap: createStore.invalidSendPressed,
+                            child: RaisedButton(
+                              child: Text(
+                                'Enviar',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                              textColor: Colors.white,
+                              color: Colors.orange,
+                              disabledColor: Colors.orange.withAlpha(120),
+                              materialTapTargetSize:
+                                  MaterialTapTargetSize.shrinkWrap,
+                              onPressed: createStore.sendPressed,
+                            ),
+                          ),
+                        );
+                      }),
+                    ],
+                  );
+              },
             ),
           ),
         ),

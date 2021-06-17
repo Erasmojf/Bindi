@@ -8,35 +8,44 @@ import 'package:path/path.dart' as path;
 
 class AdRepository {
   Future<void> save(Ad ad) async {
-    final paseImages = await saveImages(ad.images);
+    try {
+      final paseImages = await saveImages(ad.images);
 
-    final parseUser = ParseUser('', '', '')..set(keyUserId, ad.user.id);
+      final parseUser = ParseUser('', '', '')..set(keyUserId, ad.user.id);
 
-    final adObject = ParseObject(keyAdTable);
+      final adObject = ParseObject(keyAdTable);
 
-    final parseAcl = ParseACL(owner: parseUser);
-    parseAcl.setPublicReadAccess(allowed: true);
-    parseAcl.setPublicWriteAccess(allowed: false);
-    adObject.setACL(parseAcl);
-    adObject.set<String>(keyAdTitle, ad.title);
-    adObject.set<String>(keyAdDescription, ad.description);
-    adObject.set<bool>(keyAdHidePhone, ad.hidePhone);
-    adObject.set<num>(keyAdPrice, ad.price);
-    adObject.set<int>(keyAdStatus, ad.status.index);
+      final parseAcl = ParseACL(owner: parseUser);
+      parseAcl.setPublicReadAccess(allowed: true);
+      parseAcl.setPublicWriteAccess(allowed: false);
+      adObject.setACL(parseAcl);
+      adObject.set<String>(keyAdTitle, ad.title);
+      adObject.set<String>(keyAdDescription, ad.description);
+      adObject.set<bool>(keyAdHidePhone, ad.hidePhone);
+      adObject.set<num>(keyAdPrice, ad.price);
+      adObject.set<int>(keyAdStatus, ad.status.index);
 
-    adObject.set<String>(keyAdDistrict, ad.address.distriict);
-    adObject.set<String>(keyAdCity, ad.address.city.name);
-    adObject.set<String>(keyAdFederativeUnit, ad.address.uf.initials);
-    adObject.set<String>(keyAdPostalCode, ad.address.cep);
+      adObject.set<String>(keyAdDistrict, ad.address.distriict);
+      adObject.set<String>(keyAdCity, ad.address.city.name);
+      adObject.set<String>(keyAdFederativeUnit, ad.address.uf.initials);
+      adObject.set<String>(keyAdPostalCode, ad.address.cep);
 
-    adObject.set<List<ParseFile>>(keyAdImages, paseImages);
-    adObject.set<ParseUser>(keyAdOwner, parseUser);
+      adObject.set<List<ParseFile>>(keyAdImages, paseImages);
+      adObject.set<ParseUser>(keyAdOwner, parseUser);
 
-    adObject.set<ParseObject>(keyAdCategory,
-        ParseObject(keyCategoryTable)..set(keyCategoryId, ad.category.id));
+      adObject.set<ParseObject>(keyAdCategory,
+          ParseObject(keyCategoryTable)..set(keyCategoryId, ad.category.id));
 
-    final response = await adObject.save();
-    print(response.success);
+      final response = await adObject.save();
+
+      if (response.success) {
+        return response.result;
+      } else {
+        return Future.error(ParseErrors.getDescription(response.error.code));
+      }
+    } catch (e) {
+      return Future.error('Falha ao salvar anúncio');
+    }
   }
 
   Future<List<ParseFile>> saveImages(List images) async {
