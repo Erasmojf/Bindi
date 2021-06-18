@@ -7,7 +7,7 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:path/path.dart' as path;
 
 class AdRepository {
-  Future<void> save(Ad ad) async {
+  Future<Ad> save(Ad ad) async {
     try {
       final paseImages = await saveImages(ad.images);
 
@@ -39,7 +39,7 @@ class AdRepository {
       final response = await adObject.save();
 
       if (response.success) {
-        return response.result;
+        return Ad.fromParse(response.result);
       } else {
         return Future.error(ParseErrors.getDescription(response.error.code));
       }

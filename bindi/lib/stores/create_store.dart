@@ -140,6 +140,9 @@ abstract class _CreteStore with Store {
   @observable
   String error;
 
+  @observable
+  Ad savedAd;
+
   @action
   Future<void> _send() async {
     final ad = Ad();
@@ -155,7 +158,7 @@ abstract class _CreteStore with Store {
 
     loading = true;
     try {
-      final response = await AdRepository().save(ad);
+      savedAd = await AdRepository().save(ad);
     } catch (e) {
       error = e;
     }
