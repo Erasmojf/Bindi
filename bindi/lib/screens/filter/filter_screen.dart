@@ -1,8 +1,11 @@
+import 'package:bindi/stores/filter_store.dart';
 import 'package:flutter/material.dart';
 
 import 'components/orderby_field.dart';
 
 class FilterScreen extends StatelessWidget {
+  final FilterStore filter = FilterStore();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,8 +23,9 @@ class FilterScreen extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                OrderByField(),
+                OrderByField(filter),
               ],
             ),
           ),
