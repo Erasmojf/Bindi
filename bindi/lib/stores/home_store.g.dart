@@ -24,6 +24,21 @@ mixin _$HomeStore on _HomeStore, Store {
     });
   }
 
+  final _$categoryAtom = Atom(name: '_HomeStore.category');
+
+  @override
+  Category get category {
+    _$categoryAtom.reportRead();
+    return super.category;
+  }
+
+  @override
+  set category(Category value) {
+    _$categoryAtom.reportWrite(value, super.category, () {
+      super.category = value;
+    });
+  }
+
   final _$_HomeStoreActionController = ActionController(name: '_HomeStore');
 
   @override
@@ -38,9 +53,21 @@ mixin _$HomeStore on _HomeStore, Store {
   }
 
   @override
+  void setCategory(Category value) {
+    final _$actionInfo = _$_HomeStoreActionController.startAction(
+        name: '_HomeStore.setCategory');
+    try {
+      return super.setCategory(value);
+    } finally {
+      _$_HomeStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-search: ${search}
+search: ${search},
+category: ${category}
     ''';
   }
 }

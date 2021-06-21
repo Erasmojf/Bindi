@@ -1,3 +1,4 @@
+import 'package:bindi/models/category.dart';
 import 'package:mobx/mobx.dart';
 
 part 'home_store.g.dart';
@@ -10,4 +11,10 @@ abstract class _HomeStore with Store {
 
   @action
   void setSearch(String value) => search = value;
+
+  @observable
+  Category category;
+
+  @action
+  void setCategory(Category value) => category = value;
 }

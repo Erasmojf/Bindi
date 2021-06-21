@@ -1,31 +1,51 @@
+import 'package:bindi/screens/category/category_screen.dart';
+import 'package:bindi/stores/home_store.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 
 import 'bar_button.dart';
 
 class TopBar extends StatelessWidget {
+  final HomeStore homeStore = GetIt.I<HomeStore>();
+
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        BarButton(
-          label: 'Categorias',
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(color: Colors.grey[400]),
+        Observer(builder: (_) {
+          return BarButton(
+            label: homeStore.category?.description ?? 'Categorias',
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(color: Colors.grey[400]),
+              ),
             ),
-          ),
-          onTap: () {},
-        ),
-        BarButton(
-          label: 'Filtros',
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(color: Colors.grey[400]),
-              left: BorderSide(color: Colors.grey[400]),
+            onTap: () async {
+              final category = await Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => CategoryScreen(
+                    showAll: true,
+                    selected: homeStore.category,
+                  ),
+                ),
+              );
+              if (category != null) homeStore.setCategory(category);
+            },
+          );
+        }),
+        Observer(builder: (_) {
+          return BarButton(
+            label: 'Filtros',
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(color: Colors.grey[400]),
+                left: BorderSide(color: Colors.grey[400]),
+              ),
             ),
-          ),
-          onTap: () {},
-        ),
+            onTap: () {},
+          );
+        }),
       ],
     );
   }
