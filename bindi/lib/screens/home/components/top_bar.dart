@@ -1,4 +1,5 @@
 import 'package:bindi/screens/category/category_screen.dart';
+import 'package:bindi/screens/filter/filter_screen.dart';
 import 'package:bindi/stores/home_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -43,7 +44,11 @@ class TopBar extends StatelessWidget {
                 left: BorderSide(color: Colors.grey[400]),
               ),
             ),
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => FilterScreen()),
+              );
+            },
           );
         }),
       ],
