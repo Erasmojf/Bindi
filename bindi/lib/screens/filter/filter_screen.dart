@@ -2,6 +2,7 @@ import 'package:bindi/stores/filter_store.dart';
 import 'package:flutter/material.dart';
 
 import 'components/orderby_field.dart';
+import 'components/price_range_field.dart';
 
 class FilterScreen extends StatelessWidget {
   final FilterStore filter = FilterStore();
@@ -26,6 +27,7 @@ class FilterScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 OrderByField(filter),
+                PriceRangeField(filter),
               ],
             ),
           ),
