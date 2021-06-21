@@ -9,48 +9,48 @@ part of 'signup_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$SignupStore on _SignupStore, Store {
-  Computed<bool>? _$nameValidComputed;
+  Computed<bool> _$nameValidComputed;
 
   @override
   bool get nameValid => (_$nameValidComputed ??=
           Computed<bool>(() => super.nameValid, name: '_SignupStore.nameValid'))
       .value;
-  Computed<bool>? _$emailValidComputed;
+  Computed<bool> _$emailValidComputed;
 
   @override
   bool get emailValid =>
       (_$emailValidComputed ??= Computed<bool>(() => super.emailValid,
               name: '_SignupStore.emailValid'))
           .value;
-  Computed<bool>? _$phoneValidComputed;
+  Computed<bool> _$phoneValidComputed;
 
   @override
   bool get phoneValid =>
       (_$phoneValidComputed ??= Computed<bool>(() => super.phoneValid,
               name: '_SignupStore.phoneValid'))
           .value;
-  Computed<bool>? _$passwordValidComputed;
+  Computed<bool> _$passwordValidComputed;
 
   @override
   bool get passwordValid =>
       (_$passwordValidComputed ??= Computed<bool>(() => super.passwordValid,
               name: '_SignupStore.passwordValid'))
           .value;
-  Computed<bool>? _$confirmPasswordValidComputed;
+  Computed<bool> _$confirmPasswordValidComputed;
 
   @override
   bool get confirmPasswordValid => (_$confirmPasswordValidComputed ??=
           Computed<bool>(() => super.confirmPasswordValid,
               name: '_SignupStore.confirmPasswordValid'))
       .value;
-  Computed<bool>? _$isFormValidComputed;
+  Computed<bool> _$isFormValidComputed;
 
   @override
   bool get isFormValid =>
       (_$isFormValidComputed ??= Computed<bool>(() => super.isFormValid,
               name: '_SignupStore.isFormValid'))
           .value;
-  Computed<Function>? _$signUpPressedComputed;
+  Computed<Function> _$signUpPressedComputed;
 
   @override
   Function get signUpPressed =>

@@ -27,7 +27,7 @@ class _CreateScreenState extends State<CreateScreen> {
     super.initState();
 
     reaction((_) => createStore.savedAd, (Ad) {
-      when((_) => createStore.savedAd != null, () {
+      when((_) => createStore.savedAd, () {
         GetIt.I<PageStore>().setPage(0);
       });
     });

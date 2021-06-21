@@ -9,53 +9,53 @@ part of 'create_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$CreateStore on _CreteStore, Store {
-  Computed<bool>? _$imagesValidComputed;
+  Computed<bool> _$imagesValidComputed;
 
   @override
   bool get imagesValid =>
       (_$imagesValidComputed ??= Computed<bool>(() => super.imagesValid,
               name: '_CreteStore.imagesValid'))
           .value;
-  Computed<bool>? _$titleValidComputed;
+  Computed<bool> _$titleValidComputed;
 
   @override
   bool get titleValid =>
       (_$titleValidComputed ??= Computed<bool>(() => super.titleValid,
               name: '_CreteStore.titleValid'))
           .value;
-  Computed<bool>? _$descriptionValidComputed;
+  Computed<bool> _$descriptionValidComputed;
 
   @override
   bool get descriptionValid => (_$descriptionValidComputed ??= Computed<bool>(
           () => super.descriptionValid,
           name: '_CreteStore.descriptionValid'))
       .value;
-  Computed<bool>? _$categoryValidComputed;
+  Computed<bool> _$categoryValidComputed;
 
   @override
   bool get categoryValid =>
       (_$categoryValidComputed ??= Computed<bool>(() => super.categoryValid,
               name: '_CreteStore.categoryValid'))
           .value;
-  Computed<Address>? _$addressComputed;
+  Computed<Address> _$addressComputed;
 
   @override
   Address get address => (_$addressComputed ??=
           Computed<Address>(() => super.address, name: '_CreteStore.address'))
       .value;
-  Computed<num>? _$priceComputed;
+  Computed<num> _$priceComputed;
 
   @override
   num get price => (_$priceComputed ??=
           Computed<num>(() => super.price, name: '_CreteStore.price'))
       .value;
-  Computed<bool>? _$formValidComputed;
+  Computed<bool> _$formValidComputed;
 
   @override
   bool get formValid => (_$formValidComputed ??=
           Computed<bool>(() => super.formValid, name: '_CreteStore.formValid'))
       .value;
-  Computed<Function>? _$sendPressedComputed;
+  Computed<Function> _$sendPressedComputed;
 
   @override
   Function get sendPressed =>
@@ -186,13 +186,13 @@ mixin _$CreateStore on _CreteStore, Store {
   final _$savedAdAtom = Atom(name: '_CreteStore.savedAd');
 
   @override
-  Ad get savedAd {
+  bool get savedAd {
     _$savedAdAtom.reportRead();
     return super.savedAd;
   }
 
   @override
-  set savedAd(Ad value) {
+  set savedAd(bool value) {
     _$savedAdAtom.reportWrite(value, super.savedAd, () {
       super.savedAd = value;
     });
