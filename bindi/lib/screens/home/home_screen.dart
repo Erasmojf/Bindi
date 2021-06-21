@@ -5,6 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
 import 'components/search_dialog.dart';
+import 'components/top_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   final HomeStore homeStore = GetIt.I<HomeStore>();
@@ -58,6 +59,11 @@ class HomeScreen extends StatelessWidget {
                 );
               },
             ),
+          ],
+        ),
+        body: Column(
+          children: [
+            TopBar(),
           ],
         ),
       ),
