@@ -34,12 +34,12 @@ abstract class _FilterStore with Store {
           : null;
 
   @observable
-  int vendorType = 0;
+  int vendorType = VENDOR_TYPE_PARTICULAR;
 
   @action
   void selectVendorType(int value) => vendorType = value;
   void setVendorType(int type) => vendorType = vendorType | type;
-  void resetVendorType(int type) => vendorType & ~type;
+  void resetVendorType(int type) => vendorType = vendorType & ~type;
 
   @computed
   bool get isTypeParticular => (vendorType & VENDOR_TYPE_PARTICULAR) != 0;

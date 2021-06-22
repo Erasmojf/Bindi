@@ -9,14 +9,14 @@ part of 'filter_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$FilterStore on _FilterStore, Store {
-  Computed<String>? _$priceErrorComputed;
+  Computed<String> _$priceErrorComputed;
 
   @override
   String get priceError =>
       (_$priceErrorComputed ??= Computed<String>(() => super.priceError,
               name: '_FilterStore.priceError'))
           .value;
-  Computed<bool>? _$isTypeParticularComputed;
+  Computed<bool> _$isTypeParticularComputed;
 
   @override
   bool get isTypeParticular => (_$isTypeParticularComputed ??= Computed<bool>(
