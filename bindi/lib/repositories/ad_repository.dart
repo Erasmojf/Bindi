@@ -1,12 +1,38 @@
 import 'dart:io';
 
 import 'package:bindi/models/ad.dart';
+import 'package:bindi/models/category.dart';
 import 'package:bindi/repositories/parse_errors.dart';
 import 'package:bindi/repositories/table_keys.dart';
+import 'package:bindi/stores/filter_store.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:path/path.dart' as path;
 
 class AdRepository {
+  Future<List<Ad>> getHomAdList({
+    FilterStore filter,
+    String search,
+    Category category,
+  }) {
+    final queryBuilder = QueryBuilder<ParseObject>(ParseObject(keyAdTable));
+
+    queryBuilder.setLimit(20);
+
+    queryBuilder.whereEqualTo(keyAdStatus, AdStatus.ACTIVE.index);
+
+    if (search != null && search.trim().isNotEmpty) {
+      queryBuilder.whereContains(keyAdTitle, search, caseSensitive: false);
+    }
+
+    if (category != null && category.id != '*') {
+      queryBuilder.whereEqualTo(
+        keyAdCategory,
+        (ParseObject(keyCategoryTable)..set(keyCategoryId, category.id))
+            .toPointer(),
+      );
+    }
+  }
+
   Future<void> save(Ad ad) async {
     try {
       final paseImages = await saveImages(ad.images);
