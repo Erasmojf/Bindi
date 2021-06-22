@@ -13,7 +13,7 @@ class VendorTypeField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        SectionTitle('Tipo de anúnciante'),
+        SectionTitle('Tipo de anunciante'),
         Observer(builder: (_) {
           return Wrap(
             runSpacing: 4,

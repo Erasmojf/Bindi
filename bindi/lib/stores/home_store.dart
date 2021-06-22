@@ -1,4 +1,5 @@
 import 'package:bindi/models/category.dart';
+import 'package:bindi/stores/filter_store.dart';
 import 'package:mobx/mobx.dart';
 
 part 'home_store.g.dart';
@@ -17,4 +18,12 @@ abstract class _HomeStore with Store {
 
   @action
   void setCategory(Category value) => category = value;
+
+  @observable
+  FilterStore filter = FilterStore();
+
+  FilterStore get clonedFilter => filter.clone();
+
+  @action
+  void setFilter(FilterStore value) => filter = value;
 }

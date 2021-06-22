@@ -1,3 +1,5 @@
+import 'package:bindi/stores/home_store.dart';
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 
 part 'filter_store.g.dart';
@@ -9,17 +11,24 @@ const VENDOR_TYPE_PROFESSIONAL = 1 << 1;
 class FilterStore = _FilterStore with _$FilterStore;
 
 abstract class _FilterStore with Store {
+  _FilterStore({
+    this.orderBy = OrderBy.DATE,
+    this.minPrice,
+    this.maxPrice,
+    this.vendorType = VENDOR_TYPE_PARTICULAR,
+  });
+
   @observable
-  OrderBy orderBy = OrderBy.DATE;
+  OrderBy orderBy;
 
   @action
   void setOrderby(OrderBy value) => orderBy = value;
 
   @observable
-  int minPrice = 10;
+  int minPrice;
 
   @observable
-  int maxPrice = 20;
+  int maxPrice;
 
   @action
   void setMinPrice(int value) => minPrice = value;
@@ -34,7 +43,7 @@ abstract class _FilterStore with Store {
           : null;
 
   @observable
-  int vendorType = VENDOR_TYPE_PARTICULAR;
+  int vendorType;
 
   @action
   void selectVendorType(int value) => vendorType = value;
@@ -44,4 +53,20 @@ abstract class _FilterStore with Store {
   @computed
   bool get isTypeParticular => (vendorType & VENDOR_TYPE_PARTICULAR) != 0;
   bool get isTypeProfissional => (vendorType & VENDOR_TYPE_PROFESSIONAL) != 0;
+
+  @computed
+  bool get isFormValid => priceError == null;
+
+  void save() {
+    GetIt.I<HomeStore>().setFilter(this);
+  }
+
+  FilterStore clone() {
+    return FilterStore(
+      orderBy: orderBy,
+      minPrice: minPrice,
+      maxPrice: maxPrice,
+      vendorType: vendorType,
+    );
+  }
 }
