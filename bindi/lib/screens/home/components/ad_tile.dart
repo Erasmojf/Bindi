@@ -1,3 +1,4 @@
+import 'package:bindi/helpers/extensions.dart';
 import 'package:bindi/models/ad.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +54,7 @@ class AdTile extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '${ad.created} - '
+                      '${ad.created.formattedDate()} - '
                       '${ad.address.city.name} - '
                       '${ad.address.uf.initials}',
                       style: TextStyle(

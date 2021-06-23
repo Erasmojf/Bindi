@@ -112,7 +112,7 @@ class HomeScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'Nenhum anúncio encontrado!',
+                            'Ops...Nenhum anúncio encontrado!',
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w700,
