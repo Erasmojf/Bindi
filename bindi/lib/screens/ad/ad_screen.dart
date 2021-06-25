@@ -3,7 +3,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 
+import 'components/description_panel.dart';
+import 'components/location_panel.dart';
 import 'components/main_panel.dart';
+import 'components/user_panel.dart';
 
 class AdScreen extends StatelessWidget {
   AdScreen(this.ad);
@@ -41,6 +44,12 @@ class AdScreen extends StatelessWidget {
               children: [
                 MainPanel(ad),
                 Divider(color: Colors.grey[500]),
+                DescriptionPanel(ad),
+                Divider(color: Colors.grey[500]),
+                LocationPanel(ad),
+                Divider(color: Colors.grey[500]),
+                UserPanel(ad),
+                SizedBox(height: 16),
               ],
             ),
           ),
