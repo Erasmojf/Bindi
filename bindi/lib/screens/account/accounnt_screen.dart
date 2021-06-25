@@ -1,4 +1,5 @@
 import 'package:bindi/components/custom_drawer/custom_drawer.dart';
+import 'package:bindi/screens/myads/myads_screen.dart';
 import 'package:bindi/stores/user_manager_store.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -70,7 +71,11 @@ class AccountScreen extends StatelessWidget {
                   ),
                 ),
                 trailing: Icon(Icons.keyboard_arrow_right),
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => MyAdsScreenn()),
+                  );
+                },
               ),
               ListTile(
                 title: Text(
