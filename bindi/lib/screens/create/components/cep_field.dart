@@ -72,7 +72,7 @@ class CepField extends StatelessWidget {
                 padding: const EdgeInsets.all(8),
                 alignment: Alignment.center,
                 child: Text(
-                  'Localização: ${a.distriict}, ${a.city.name} - ${a.uf.initials}',
+                  'Localização: ${a.district}, ${a.city.name} - ${a.uf.initials}',
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     color: Colors.white,

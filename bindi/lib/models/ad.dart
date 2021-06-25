@@ -19,7 +19,7 @@ class Ad {
     price = object.get<num>(keyAdPrice);
     created = object.createdAt;
     address = Address(
-      distriict: object.get<String>(keyAdDistrict),
+      district: object.get<String>(keyAdDistrict),
       city: City(name: object.get<String>(keyAdCity)),
       cep: object.get<String>(keyAdPostalCode),
       uf: UF(initials: object.get<String>(keyAdFederativeUnit)),

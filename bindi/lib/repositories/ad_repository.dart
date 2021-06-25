@@ -83,7 +83,7 @@ class AdRepository {
 
   Future<void> save(Ad ad) async {
     try {
-      final paseImages = await saveImages(ad.images);
+      final parseImages = await saveImages(ad.images);
 
       final parseUser = ParseUser('', '', '')..set(keyUserId, ad.user.id);
 
@@ -99,19 +99,18 @@ class AdRepository {
       adObject.set<num>(keyAdPrice, ad.price);
       adObject.set<int>(keyAdStatus, ad.status.index);
 
-      adObject.set<String>(keyAdDistrict, ad.address.distriict);
+      adObject.set<String>(keyAdDistrict, ad.address.district);
       adObject.set<String>(keyAdCity, ad.address.city.name);
       adObject.set<String>(keyAdFederativeUnit, ad.address.uf.initials);
       adObject.set<String>(keyAdPostalCode, ad.address.cep);
 
-      adObject.set<List<ParseFile>>(keyAdImages, paseImages);
+      adObject.set<List<ParseFile>>(keyAdImages, parseImages);
       adObject.set<ParseUser>(keyAdOwner, parseUser);
 
       adObject.set<ParseObject>(keyAdCategory,
           ParseObject(keyCategoryTable)..set(keyCategoryId, ad.category.id));
 
       final response = await adObject.save();
-
       if (!response.success) {
         return Future.error(ParseErrors.getDescription(response.error.code));
       }

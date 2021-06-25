@@ -23,7 +23,7 @@ class CepRepository {
 
       return Address(
         cep: response.data['cep'],
-        distriict: response.data['bairro'],
+        district: response.data['bairro'],
         city: City(name: response.data['localidade']),
         uf: ufList.firstWhere((uf) => uf.initials == response.data['uf']),
       );
