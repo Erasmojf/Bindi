@@ -1,3 +1,4 @@
+import 'package:bindi/screens/account/accounnt_screen.dart';
 import 'package:bindi/screens/create/create_screen.dart';
 import 'package:bindi/screens/home/home_screen.dart';
 import 'package:bindi/stores/page_store.dart';
@@ -11,18 +12,14 @@ class BaseScreen extends StatefulWidget {
 }
 
 class _BaseScreenState extends State<BaseScreen> {
-  final PageController  pageController = PageController();
+  final PageController pageController = PageController();
 
   final PageStore pageStore = GetIt.I<PageStore>();
-
 
   @override
   void initState() {
     super.initState();
-    reaction((_) => pageStore.page,
-        (page) => pageController.jumpToPage(page)
-    );
-        
+    reaction((_) => pageStore.page, (page) => pageController.jumpToPage(page));
   }
 
   @override
@@ -34,9 +31,13 @@ class _BaseScreenState extends State<BaseScreen> {
         children: [
           HomeScreen(),
           CreateScreen(),
-          Container(color: Colors.red,),
-          Container(color: Colors.amber,),
-          Container(color: Colors.purple,)
+          Container(
+            color: Colors.red,
+          ),
+          Container(
+            color: Colors.amber,
+          ),
+          AccountScreen(),
         ],
       ),
     );
