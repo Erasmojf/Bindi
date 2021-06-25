@@ -1,5 +1,8 @@
 import 'package:bindi/stores/myads_store.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+
+import 'components/active_tile.dart';
 
 class MyAdsScreenn extends StatefulWidget {
   @override
@@ -37,9 +40,15 @@ class _MyAdsScreennState extends State<MyAdsScreenn>
       body: TabBarView(
         controller: tabController,
         children: [
-          Container(
-            color: Colors.red,
-          ),
+          Observer(builder: (_) {
+            if (store.activeAds.isEmpty) return Container();
+            return ListView.builder(
+              itemCount: store.activeAds.length,
+              itemBuilder: (_, index) {
+                return ActiveTile(store.activeAds[index]);
+              },
+            );
+          }),
           Container(
             color: Colors.yellow,
           ),
