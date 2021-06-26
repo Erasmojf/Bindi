@@ -1,8 +1,10 @@
+import 'package:bindi/screens/myads/components/sold_tile.dart';
 import 'package:bindi/stores/myads_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 import 'components/active_tile.dart';
+import 'components/pending_tile.dart';
 
 class MyAdsScreenn extends StatefulWidget {
   @override
@@ -49,12 +51,24 @@ class _MyAdsScreennState extends State<MyAdsScreenn>
               },
             );
           }),
-          Container(
-            color: Colors.yellow,
-          ),
-          Container(
-            color: Colors.green,
-          ),
+          Observer(builder: (_) {
+            if (store.pendingAds.isEmpty) return Container();
+            return ListView.builder(
+              itemCount: store.pendingAds.length,
+              itemBuilder: (_, index) {
+                return PendingTile(store.pendingAds[index]);
+              },
+            );
+          }),
+          Observer(builder: (_) {
+            if (store.soldAds.isEmpty) return Container();
+            return ListView.builder(
+              itemCount: store.soldAds.length,
+              itemBuilder: (_, index) {
+                return SoldTile(store.soldAds[index]);
+              },
+            );
+          }),
         ],
       ),
     );
