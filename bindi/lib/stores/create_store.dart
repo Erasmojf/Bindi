@@ -13,6 +13,20 @@ part 'create_store.g.dart';
 class CreateStore = _CreteStore with _$CreateStore;
 
 abstract class _CreteStore with Store {
+  _CreteStore(Ad ad) {
+    title = ad.title;
+    description = ad.description;
+    images = ad.images.asObservable();
+    category = ad.category;
+    priceText = '${ad.price?.toStringAsFixed(2)}';
+    hidePhone = ad.hidePhone;
+
+    if (ad.address != null)
+      cepStore = CepStore(ad.address.cep);
+    else
+      cepStore = CepStore(null);
+  }
+
   ObservableList images = ObservableList();
 
   @computed
@@ -73,7 +87,7 @@ abstract class _CreteStore with Store {
       return 'Campo obrigatório';
   }
 
-  CepStore cepStore = CepStore();
+  CepStore cepStore;
 
   @computed
   Address get address => cepStore.address;

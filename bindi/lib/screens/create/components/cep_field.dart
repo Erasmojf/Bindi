@@ -20,6 +20,7 @@ class CepField extends StatelessWidget {
         Observer(
           builder: (_) {
             return TextFormField(
+              initialValue: cepStore.cep,
               onChanged: cepStore.setCep,
               keyboardType: TextInputType.number,
               inputFormatters: [

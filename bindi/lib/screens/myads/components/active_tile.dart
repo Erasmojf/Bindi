@@ -1,5 +1,6 @@
 import 'package:bindi/models/ad.dart';
 import 'package:bindi/screens/ad/ad_screen.dart';
+import 'package:bindi/screens/create/create_screen.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -76,6 +77,7 @@ class ActiveTile extends StatelessWidget {
                     onSelected: (choice) {
                       switch (choice.index) {
                         case 0:
+                          editAd(context);
                           break;
                         case 1:
                           break;
@@ -121,6 +123,12 @@ class ActiveTile extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> editAd(BuildContext context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => CreateScreen(ad: ad)),
     );
   }
 }

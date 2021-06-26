@@ -1,5 +1,6 @@
 import 'package:bindi/components/custom_drawer/custom_drawer.dart';
 import 'package:bindi/components/error_box.dart';
+import 'package:bindi/models/ad.dart';
 import 'package:bindi/stores/create_store.dart';
 import 'package:bindi/stores/page_store.dart';
 import 'package:brasil_fields/brasil_fields.dart';
@@ -15,12 +16,20 @@ import 'components/hide_phone_field.dart';
 import 'components/images_field.dart';
 
 class CreateScreen extends StatefulWidget {
+  CreateScreen({this.ad});
+  final Ad ad;
+
   @override
-  _CreateScreenState createState() => _CreateScreenState();
+  _CreateScreenState createState() => _CreateScreenState(ad);
 }
 
 class _CreateScreenState extends State<CreateScreen> {
-  final CreateStore createStore = CreateStore();
+  _CreateScreenState(Ad ad)
+      : editing = ad != null,
+        createStore = CreateStore(ad ?? Ad());
+
+  final CreateStore createStore;
+  bool editing;
 
   @override
   void initState() {
@@ -44,9 +53,9 @@ class _CreateScreenState extends State<CreateScreen> {
     final contentPadding = const EdgeInsets.fromLTRB(16, 10, 12, 10);
 
     return Scaffold(
-      drawer: CustomDrawer(),
+      drawer: editing ? null : CustomDrawer(),
       appBar: AppBar(
-        title: Text('Criar anúncio'),
+        title: Text(editing ? 'Editar anúncio' : 'Criar anúncio'),
         centerTitle: true,
       ),
       body: Container(
@@ -88,6 +97,7 @@ class _CreateScreenState extends State<CreateScreen> {
                       ImagesField(createStore),
                       Observer(builder: (_) {
                         return TextFormField(
+                          initialValue: createStore.title,
                           onChanged: createStore.setTitle,
                           decoration: InputDecoration(
                             labelText: 'Titulo *',
@@ -100,6 +110,7 @@ class _CreateScreenState extends State<CreateScreen> {
                       Observer(
                         builder: (_) {
                           return TextFormField(
+                            initialValue: createStore.description,
                             onChanged: createStore.setDescription,
                             decoration: InputDecoration(
                               labelText: 'Descrição *',
@@ -117,6 +128,7 @@ class _CreateScreenState extends State<CreateScreen> {
                         builder: (_) {
                           return TextFormField(
                             onChanged: createStore.setPrice,
+                            initialValue: createStore.priceText,
                             decoration: InputDecoration(
                                 labelText: 'Preço *',
                                 labelStyle: labelStyle,
