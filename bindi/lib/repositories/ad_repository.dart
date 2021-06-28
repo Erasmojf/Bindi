@@ -10,74 +10,79 @@ import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:path/path.dart' as path;
 
 class AdRepository {
-  Future<List<Ad>> getHomAdList({
+  Future<List<Ad>> getHomeAdList({
     FilterStore filter,
     String search,
     Category category,
     int page,
   }) async {
-    final queryBuilder = QueryBuilder<ParseObject>(ParseObject(keyAdTable));
+    try {
+      final queryBuilder = QueryBuilder<ParseObject>(ParseObject(keyAdTable));
 
-    queryBuilder.includeObject([keyAdOwner, keyAdCategory]);
+      queryBuilder.includeObject([keyAdOwner, keyAdCategory]);
 
-    queryBuilder.setAmountToSkip(page * 20);
-    queryBuilder.setLimit(20);
+      queryBuilder.setAmountToSkip(page * 10);
+      queryBuilder.setLimit(10);
 
-    queryBuilder.whereEqualTo(keyAdStatus, AdStatus.ACTIVE.index);
+      queryBuilder.whereEqualTo(keyAdStatus, AdStatus.ACTIVE.index);
 
-    if (search != null && search.trim().isNotEmpty) {
-      queryBuilder.whereContains(keyAdTitle, search, caseSensitive: false);
-    }
-
-    if (category != null && category.id != '*') {
-      queryBuilder.whereEqualTo(
-        keyAdCategory,
-        (ParseObject(keyCategoryTable)..set(keyCategoryId, category.id))
-            .toPointer(),
-      );
-    }
-
-    switch (filter.orderBy) {
-      case OrderBy.PRICE:
-        queryBuilder.orderByAscending(keyAdPrice);
-        break;
-      case OrderBy.DATE:
-      default:
-        queryBuilder.orderByDescending(keyAdCreatedAt);
-        break;
-    }
-
-    if (filter.minPrice != null && filter.minPrice > 0) {
-      queryBuilder.whereGreaterThanOrEqualsTo(keyAdPrice, filter.minPrice);
-    }
-
-    if (filter.maxPrice != null && filter.maxPrice > 0) {
-      queryBuilder.whereLessThanOrEqualTo(keyAdPrice, filter.maxPrice);
-    }
-
-    if (filter.vendorType != null &&
-        filter.vendorType > 0 &&
-        filter.vendorType <
-            (VENDOR_TYPE_PROFESSIONAL | VENDOR_TYPE_PARTICULAR)) {
-      final userQuery = QueryBuilder<ParseUser>(ParseUser.forQuery());
-
-      if (filter.vendorType == VENDOR_TYPE_PARTICULAR) {
-        userQuery.whereEqualTo(keyUserType, UserType.PARTICULAR.index);
-      }
-      if (filter.vendorType == VENDOR_TYPE_PROFESSIONAL) {
-        userQuery.whereEqualTo(keyUserType, UserType.PROFESSIONAL);
+      if (search != null && search.trim().isNotEmpty) {
+        queryBuilder.whereContains(keyAdTitle, search, caseSensitive: false);
       }
 
-      queryBuilder.whereMatchesQuery(keyAdOwner, userQuery);
-    }
-    final response = await queryBuilder.query();
+      if (category != null && category.id != '*') {
+        queryBuilder.whereEqualTo(
+          keyAdCategory,
+          (ParseObject(keyCategoryTable)..set(keyCategoryId, category.id))
+              .toPointer(),
+        );
+      }
 
-    if (response.success && response.results != null) {
-      return response.results.map((po) => Ad.fromParse(po)).toList();
-    } else if (response.success && response.results == null) {
-      return [];
-    } else {
-      return Future.error(ParseErrors.getDescription(response.error.code));
+      switch (filter.orderBy) {
+        case OrderBy.PRICE:
+          queryBuilder.orderByAscending(keyAdPrice);
+          break;
+        case OrderBy.DATE:
+        default:
+          queryBuilder.orderByDescending(keyAdCreatedAt);
+          break;
+      }
+
+      if (filter.minPrice != null && filter.minPrice > 0) {
+        queryBuilder.whereGreaterThanOrEqualsTo(keyAdPrice, filter.minPrice);
+      }
+
+      if (filter.maxPrice != null && filter.maxPrice > 0) {
+        queryBuilder.whereLessThanOrEqualTo(keyAdPrice, filter.maxPrice);
+      }
+
+      if (filter.vendorType != null &&
+          filter.vendorType > 0 &&
+          filter.vendorType <
+              (VENDOR_TYPE_PROFESSIONAL | VENDOR_TYPE_PARTICULAR)) {
+        final userQuery = QueryBuilder<ParseUser>(ParseUser.forQuery());
+
+        if (filter.vendorType == VENDOR_TYPE_PARTICULAR) {
+          userQuery.whereEqualTo(keyUserType, UserType.PARTICULAR.index);
+        }
+
+        if (filter.vendorType == VENDOR_TYPE_PROFESSIONAL) {
+          userQuery.whereEqualTo(keyUserType, UserType.PROFESSIONAL.index);
+        }
+
+        queryBuilder.whereMatchesQuery(keyAdOwner, userQuery);
+      }
+
+      final response = await queryBuilder.query();
+      if (response.success && response.results != null) {
+        return response.results.map((po) => Ad.fromParse(po)).toList();
+      } else if (response.success && response.results == null) {
+        return [];
+      } else {
+        return Future.error(ParseErrors.getDescription(response.error.code));
+      }
+    } catch (e) {
+      return Future.error('Falha de conexão');
     }
   }
 
@@ -89,10 +94,13 @@ class AdRepository {
 
       final adObject = ParseObject(keyAdTable);
 
+      if (ad.id != null) adObject.objectId = ad.id;
+
       final parseAcl = ParseACL(owner: parseUser);
       parseAcl.setPublicReadAccess(allowed: true);
       parseAcl.setPublicWriteAccess(allowed: false);
       adObject.setACL(parseAcl);
+
       adObject.set<String>(keyAdTitle, ad.title);
       adObject.set<String>(keyAdDescription, ad.description);
       adObject.set<bool>(keyAdHidePhone, ad.hidePhone);
@@ -105,22 +113,26 @@ class AdRepository {
       adObject.set<String>(keyAdPostalCode, ad.address.cep);
 
       adObject.set<List<ParseFile>>(keyAdImages, parseImages);
+
       adObject.set<ParseUser>(keyAdOwner, parseUser);
 
       adObject.set<ParseObject>(keyAdCategory,
           ParseObject(keyCategoryTable)..set(keyCategoryId, ad.category.id));
 
       final response = await adObject.save();
+
       if (!response.success) {
         return Future.error(ParseErrors.getDescription(response.error.code));
       }
     } catch (e) {
+      print(e);
       return Future.error('Falha ao salvar anúncio');
     }
   }
 
   Future<List<ParseFile>> saveImages(List images) async {
     final parseImages = <ParseFile>[];
+
     try {
       for (final image in images) {
         if (image is File) {
@@ -138,6 +150,7 @@ class AdRepository {
           parseImages.add(parseFile);
         }
       }
+
       return parseImages;
     } catch (e) {
       return Future.error('Falha ao salvar imagens');
@@ -154,7 +167,6 @@ class AdRepository {
     queryBuilder.includeObject([keyAdCategory, keyAdOwner]);
 
     final response = await queryBuilder.query();
-
     if (response.success && response.results != null) {
       return response.results.map((po) => Ad.fromParse(po)).toList();
     } else if (response.success && response.results == null) {
@@ -162,5 +174,25 @@ class AdRepository {
     } else {
       return Future.error(ParseErrors.getDescription(response.error.code));
     }
+  }
+
+  Future<void> sold(Ad ad) async {
+    final parseObject = ParseObject(keyAdTable)..set(keyAdId, ad.id);
+
+    parseObject.set(keyAdStatus, AdStatus.SOLD.index);
+
+    final response = await parseObject.save();
+    if (!response.success)
+      return Future.error(ParseErrors.getDescription(response.error.code));
+  }
+
+  Future<void> delete(Ad ad) async {
+    final parseObject = ParseObject(keyAdTable)..set(keyAdId, ad.id);
+
+    parseObject.set(keyAdStatus, AdStatus.DELETED.index);
+
+    final response = await parseObject.save();
+    if (!response.success)
+      return Future.error(ParseErrors.getDescription(response.error.code));
   }
 }

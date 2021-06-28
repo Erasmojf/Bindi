@@ -13,7 +13,7 @@ abstract class _HomeStore with Store {
     autorun((_) async {
       try {
         setLoading(true);
-        final newAds = await AdRepository().getHomAdList(
+        final newAds = await AdRepository().getHomeAdList(
           filter: filter,
           search: search,
           category: category,

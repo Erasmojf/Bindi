@@ -1,10 +1,10 @@
-import 'package:bindi/screens/myads/components/sold_tile.dart';
 import 'package:bindi/stores/myads_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
 import 'components/active_tile.dart';
 import 'components/pending_tile.dart';
+import 'components/sold_tile.dart';
 
 class MyAdsScreen extends StatefulWidget {
   MyAdsScreen({this.initialPage = 0});
@@ -45,37 +45,47 @@ class _MyAdsScreenState extends State<MyAdsScreen>
           ],
         ),
       ),
-      body: TabBarView(
-        controller: tabController,
-        children: [
-          Observer(builder: (_) {
-            if (store.activeAds.isEmpty) return Container();
-            return ListView.builder(
-              itemCount: store.activeAds.length,
-              itemBuilder: (_, index) {
-                return ActiveTile(store.activeAds[index]);
-              },
+      body: Observer(
+        builder: (_) {
+          if (store.loading)
+            return Center(
+              child: CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation(Colors.white),
+              ),
             );
-          }),
-          Observer(builder: (_) {
-            if (store.pendingAds.isEmpty) return Container();
-            return ListView.builder(
-              itemCount: store.pendingAds.length,
-              itemBuilder: (_, index) {
-                return PendingTile(store.pendingAds[index]);
-              },
-            );
-          }),
-          Observer(builder: (_) {
-            if (store.soldAds.isEmpty) return Container();
-            return ListView.builder(
-              itemCount: store.soldAds.length,
-              itemBuilder: (_, index) {
-                return SoldTile(store.soldAds[index]);
-              },
-            );
-          }),
-        ],
+          return TabBarView(
+            controller: tabController,
+            children: [
+              Observer(builder: (_) {
+                if (store.activeAds.isEmpty) return Container();
+                return ListView.builder(
+                  itemCount: store.activeAds.length,
+                  itemBuilder: (_, index) {
+                    return ActiveTile(store.activeAds[index], store);
+                  },
+                );
+              }),
+              Observer(builder: (_) {
+                if (store.pendingAds.isEmpty) return Container();
+                return ListView.builder(
+                  itemCount: store.pendingAds.length,
+                  itemBuilder: (_, index) {
+                    return PendingTile(store.pendingAds[index]);
+                  },
+                );
+              }),
+              Observer(builder: (_) {
+                if (store.soldAds.isEmpty) return Container();
+                return ListView.builder(
+                  itemCount: store.soldAds.length,
+                  itemBuilder: (_, index) {
+                    return SoldTile(store.soldAds[index]);
+                  },
+                );
+              }),
+            ],
+          );
+        },
       ),
     );
   }
