@@ -6,12 +6,14 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'components/active_tile.dart';
 import 'components/pending_tile.dart';
 
-class MyAdsScreenn extends StatefulWidget {
+class MyAdsScreen extends StatefulWidget {
+  MyAdsScreen({this.initialPage = 0});
+  final int initialPage;
   @override
-  _MyAdsScreennState createState() => _MyAdsScreennState();
+  _MyAdsScreenState createState() => _MyAdsScreenState();
 }
 
-class _MyAdsScreennState extends State<MyAdsScreenn>
+class _MyAdsScreenState extends State<MyAdsScreen>
     with SingleTickerProviderStateMixin {
   final MyAdsStore store = MyAdsStore();
 
@@ -20,7 +22,11 @@ class _MyAdsScreennState extends State<MyAdsScreenn>
   @override
   void initState() {
     super.initState();
-    tabController = TabController(length: 3, vsync: this);
+    tabController = TabController(
+      length: 3,
+      vsync: this,
+      initialIndex: widget.initialPage,
+    );
   }
 
   @override

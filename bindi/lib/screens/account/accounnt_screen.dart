@@ -73,7 +73,7 @@ class AccountScreen extends StatelessWidget {
                 trailing: Icon(Icons.keyboard_arrow_right),
                 onTap: () {
                   Navigator.of(context).push(
-                    MaterialPageRoute(builder: (_) => MyAdsScreenn()),
+                    MaterialPageRoute(builder: (_) => MyAdsScreen()),
                   );
                 },
               ),

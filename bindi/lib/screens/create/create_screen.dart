@@ -1,6 +1,7 @@
 import 'package:bindi/components/custom_drawer/custom_drawer.dart';
 import 'package:bindi/components/error_box.dart';
 import 'package:bindi/models/ad.dart';
+import 'package:bindi/screens/myads/myads_screen.dart';
 import 'package:bindi/stores/create_store.dart';
 import 'package:bindi/stores/page_store.dart';
 import 'package:brasil_fields/brasil_fields.dart';
@@ -37,7 +38,16 @@ class _CreateScreenState extends State<CreateScreen> {
 
     reaction((_) => createStore.savedAd, (Ad) {
       when((_) => createStore.savedAd, () {
-        GetIt.I<PageStore>().setPage(0);
+        if (editing)
+          Navigator.of(context).pop(true);
+        else {
+          GetIt.I<PageStore>().setPage(0);
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => MyAdsScreen(initialPage: 1),
+            ),
+          );
+        }
       });
     });
   }

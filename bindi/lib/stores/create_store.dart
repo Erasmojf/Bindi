@@ -13,12 +13,12 @@ part 'create_store.g.dart';
 class CreateStore = _CreteStore with _$CreateStore;
 
 abstract class _CreteStore with Store {
-  _CreteStore(Ad ad) {
-    title = ad.title;
-    description = ad.description;
+  _CreteStore(this.ad) {
+    title = ad.title ?? '';
+    description = ad.description ?? '';
     images = ad.images.asObservable();
     category = ad.category;
-    priceText = '${ad.price?.toStringAsFixed(2)}';
+    priceText = ad.price?.toStringAsFixed(2) ?? '';
     hidePhone = ad.hidePhone;
 
     if (ad.address != null)
@@ -26,6 +26,8 @@ abstract class _CreteStore with Store {
     else
       cepStore = CepStore(null);
   }
+
+  final Ad ad;
 
   ObservableList images = ObservableList();
 
@@ -159,8 +161,6 @@ abstract class _CreteStore with Store {
 
   @action
   Future<void> _send() async {
-    final ad = Ad();
-
     ad.title = title;
     ad.description = description;
     ad.category = category;
