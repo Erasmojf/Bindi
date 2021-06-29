@@ -14,7 +14,7 @@ class ActiveTile extends StatelessWidget {
   final List<MenuChoice> choices = [
     MenuChoice(index: 0, title: 'Editar', iconData: Icons.edit),
     MenuChoice(index: 1, title: 'Já vendi', iconData: Icons.thumb_up),
-    MenuChoice(index: 2, title: 'Excluid', iconData: Icons.delete),
+    MenuChoice(index: 2, title: 'Excluir', iconData: Icons.delete),
   ];
 
   @override
@@ -82,8 +82,10 @@ class ActiveTile extends StatelessWidget {
                           editAd(context);
                           break;
                         case 1:
+                          soldAd(context);
                           break;
                         case 2:
+                          deleteAd(context);
                           break;
                       }
                     },
@@ -135,6 +137,56 @@ class ActiveTile extends StatelessWidget {
       ),
     );
     if (success != null && success == true) store.refresh();
+  }
+
+  void soldAd(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('Vendido'),
+        content: Text('Confirmar a venda de ${ad.title}?'),
+        actions: [
+          FlatButton(
+            onPressed: Navigator.of(context).pop,
+            child: Text('Não'),
+            textColor: Colors.purple,
+          ),
+          FlatButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              store.soldAd(ad);
+            },
+            child: Text('Sim'),
+            textColor: Colors.red,
+          ),
+        ],
+      ),
+    );
+  }
+
+  void deleteAd(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: Text('Excluir'),
+        content: Text('Confirmar a exclusão de ${ad.title}?'),
+        actions: [
+          FlatButton(
+            onPressed: Navigator.of(context).pop,
+            child: Text('Não'),
+            textColor: Colors.purple,
+          ),
+          FlatButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              store.deleteAd(ad);
+            },
+            child: Text('Sim'),
+            textColor: Colors.red,
+          ),
+        ],
+      ),
+    );
   }
 }
 

@@ -1,10 +1,12 @@
 import 'package:bindi/models/ad.dart';
+import 'package:bindi/stores/myads_store.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class SoldTile extends StatelessWidget {
-  SoldTile(this.ad);
+  SoldTile(this.ad, this.store);
   final Ad ad;
+  final MyAdsStore store;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -54,7 +56,9 @@ class SoldTile extends StatelessWidget {
                   icon: Icon(Icons.delete),
                   color: Colors.purple,
                   iconSize: 20,
-                  onPressed: () {},
+                  onPressed: () {
+                    store.deleteAd(ad);
+                  },
                 ),
               ],
             )
