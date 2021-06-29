@@ -1,9 +1,13 @@
+import 'package:bindi/stores/edit_account_store.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 class EditAccounScreen extends StatelessWidget {
+  final EditAccountStore store = EditAccountStore();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,30 +39,38 @@ class EditAccounScreen extends StatelessWidget {
                       activeFgColor: Colors.white,
                       inactiveFgColor: Colors.white,
                       initialLabelIndex: 1,
-                      onToggle: (i) {},
+                      onToggle: store.setUserType,
                     );
                   }),
                   const SizedBox(height: 12),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      isDense: true,
-                      labelText: 'Nome*',
-                    ),
-                  ),
+                  Observer(builder: (_) {
+                    return TextFormField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        isDense: true,
+                        labelText: 'Nome*',
+                        errorText: store.nameError,
+                      ),
+                      onChanged: store.setName,
+                    );
+                  }),
                   const SizedBox(height: 8),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      isDense: true,
-                      labelText: 'Telefone*',
-                    ),
-                    keyboardType: TextInputType.number,
-                    inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
-                      TelefoneInputFormatter(),
-                    ],
-                  ),
+                  Observer(builder: (_) {
+                    return TextFormField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        isDense: true,
+                        labelText: 'Telefone*',
+                        errorText: store.phoneError,
+                      ),
+                      onChanged: store.setPhone,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                        TelefoneInputFormatter(),
+                      ],
+                    );
+                  }),
                   const SizedBox(height: 8),
                   TextFormField(
                     decoration: InputDecoration(
@@ -66,36 +78,42 @@ class EditAccounScreen extends StatelessWidget {
                       isDense: true,
                       labelText: 'Nova Senha',
                     ),
+                    onChanged: store.setPass1,
                     obscureText: true,
                   ),
                   const SizedBox(height: 8),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      isDense: true,
-                      labelText: 'Confirmar nova Senha',
-                    ),
-                    obscureText: true,
-                  ),
+                  Observer(builder: (_) {
+                    return TextFormField(
+                      decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          isDense: true,
+                          labelText: 'Confirmar nova Senha',
+                          errorText: store.passError),
+                      onChanged: store.setPass2,
+                      obscureText: true,
+                    );
+                  }),
                   const SizedBox(height: 12),
-                  SizedBox(
-                    height: 40,
-                    child: RaisedButton(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      color: Colors.orange,
-                      elevation: 0,
-                      textColor: Colors.white,
-                      onPressed: () {},
-                      child: Text(
-                        'Salvar',
-                        style: TextStyle(
-                          fontSize: 18,
+                  Observer(builder: (_) {
+                    return SizedBox(
+                      height: 40,
+                      child: RaisedButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        color: Colors.orange,
+                        elevation: 0,
+                        textColor: Colors.white,
+                        onPressed: store.isFormValid ? () {} : null,
+                        child: Text(
+                          'Salvar',
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
                         ),
                       ),
-                    ),
-                  ),
+                    );
+                  }),
                   const SizedBox(height: 8),
                   SizedBox(
                     height: 40,
