@@ -1,3 +1,4 @@
+import 'package:bindi/components/empty_card.dart';
 import 'package:bindi/stores/myads_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -57,7 +58,8 @@ class _MyAdsScreenState extends State<MyAdsScreen>
             controller: tabController,
             children: [
               Observer(builder: (_) {
-                if (store.activeAds.isEmpty) return Container();
+                if (store.activeAds.isEmpty)
+                  return EmptyCard('Você não possui nenhum anúnncio ativo!');
                 return ListView.builder(
                   itemCount: store.activeAds.length,
                   itemBuilder: (_, index) {
@@ -66,7 +68,8 @@ class _MyAdsScreenState extends State<MyAdsScreen>
                 );
               }),
               Observer(builder: (_) {
-                if (store.pendingAds.isEmpty) return Container();
+                if (store.pendingAds.isEmpty)
+                  return EmptyCard('Você não possui nenhum anúnncio pendente.');
                 return ListView.builder(
                   itemCount: store.pendingAds.length,
                   itemBuilder: (_, index) {
@@ -75,7 +78,8 @@ class _MyAdsScreenState extends State<MyAdsScreen>
                 );
               }),
               Observer(builder: (_) {
-                if (store.soldAds.isEmpty) return Container();
+                if (store.soldAds.isEmpty)
+                  return EmptyCard('Você não possui nenhum anúnncio vendido.');
                 return ListView.builder(
                   itemCount: store.soldAds.length,
                   itemBuilder: (_, index) {

@@ -1,4 +1,5 @@
 import 'package:bindi/components/custom_drawer/custom_drawer.dart';
+import 'package:bindi/components/empty_card.dart';
 import 'package:bindi/stores/home_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -111,28 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         );
                       if (homeStore.adList.isEmpty)
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.border_clear,
-                                color: Colors.white,
-                                size: 100,
-                              ),
-                              const SizedBox(height: 8),
-                              Text(
-                                'Ops...Nenhum anúncio encontrado!',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 20,
-                                ),
-                              )
-                            ],
-                          ),
-                        );
+                        return EmptyCard('Nenhum anúnncio encontrado.');
                       return ListView.builder(
                         controller: scrollController,
                         itemCount: homeStore.itemCount,
