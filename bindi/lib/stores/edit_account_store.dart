@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:bindi/models/user.dart';
+import 'package:bindi/repositories/user_repository.dart';
 import 'package:bindi/stores/user_manager_store.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
@@ -11,12 +12,14 @@ class EditAccountStore = _EditAccountStore with _$EditAccountStore;
 
 abstract class _EditAccountStore with Store {
   _EditAccountStore() {
-    final user = userManagerStore.user;
+    user = userManagerStore.user;
 
     userType = user.type;
     name = user.name;
     phone = user.phone;
   }
+
+  User user;
 
   final UserManagerStore userManagerStore = GetIt.I<UserManagerStore>();
 
@@ -82,8 +85,21 @@ abstract class _EditAccountStore with Store {
   Future<void> _save() async {
     loading = true;
 
-    await Future.delayed(Duration(seconds: 3));
+    user.name = name;
+    user.phone = phone;
+    user.type = userType;
 
+    if (pass1.isNotEmpty)
+      user.password = pass1;
+    else
+      user.password = null;
+
+    try {
+      await UserRepository().save(user);
+      userManagerStore.setUser(user);
+    } catch (e) {
+      print(e);
+    }
     loading = false;
   }
 }

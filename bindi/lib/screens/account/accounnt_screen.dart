@@ -3,6 +3,7 @@ import 'package:bindi/screens/edit_account/edit_account_screen.dart';
 import 'package:bindi/screens/myads/myads_screen.dart';
 import 'package:bindi/stores/user_manager_store.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
 class AccountScreen extends StatelessWidget {
@@ -33,14 +34,16 @@ class AccountScreen extends StatelessWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
-                            GetIt.I<UserManagerStore>().user.name,
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w900,
-                              color: Colors.purple,
-                            ),
-                          ),
+                          Observer(builder: (_) {
+                            return Text(
+                              GetIt.I<UserManagerStore>().user?.name,
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w900,
+                                color: Colors.purple,
+                              ),
+                            );
+                          }),
                           Text(
                             GetIt.I<UserManagerStore>().user.email,
                             style: TextStyle(
