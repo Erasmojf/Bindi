@@ -29,22 +29,29 @@ class EditAccounScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  LayoutBuilder(builder: (_, constraints) {
-                    return ToggleSwitch(
-                      minWidth: constraints.biggest.width / 2.01,
-                      labels: ['Particular', 'Prpfissional'],
-                      cornerRadius: 20,
-                      totalSwitches: 2,
-                      inactiveBgColor: Colors.grey,
-                      activeFgColor: Colors.white,
-                      inactiveFgColor: Colors.white,
-                      initialLabelIndex: 1,
-                      onToggle: store.setUserType,
+                  Observer(builder: (_) {
+                    return IgnorePointer(
+                      ignoring: store.loading,
+                      child: LayoutBuilder(builder: (_, constraints) {
+                        return ToggleSwitch(
+                          minWidth: constraints.biggest.width / 2.01,
+                          labels: ['Particular', 'Prpfissional'],
+                          cornerRadius: 20,
+                          totalSwitches: 2,
+                          inactiveBgColor: Colors.grey,
+                          activeFgColor: Colors.white,
+                          inactiveFgColor: Colors.white,
+                          initialLabelIndex: store.userType.index,
+                          onToggle: store.setUserType,
+                        );
+                      }),
                     );
                   }),
                   const SizedBox(height: 12),
                   Observer(builder: (_) {
                     return TextFormField(
+                      initialValue: store.name,
+                      enabled: !store.loading,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         isDense: true,
@@ -57,6 +64,8 @@ class EditAccounScreen extends StatelessWidget {
                   const SizedBox(height: 8),
                   Observer(builder: (_) {
                     return TextFormField(
+                      initialValue: store.phone,
+                      enabled: !store.loading,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         isDense: true,
@@ -72,23 +81,28 @@ class EditAccounScreen extends StatelessWidget {
                     );
                   }),
                   const SizedBox(height: 8),
-                  TextFormField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      isDense: true,
-                      labelText: 'Nova Senha',
-                    ),
-                    onChanged: store.setPass1,
-                    obscureText: true,
-                  ),
+                  Observer(builder: (_) {
+                    return TextFormField(
+                      enabled: !store.loading,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        isDense: true,
+                        labelText: 'Nova Senha',
+                      ),
+                      onChanged: store.setPass1,
+                      obscureText: true,
+                    );
+                  }),
                   const SizedBox(height: 8),
                   Observer(builder: (_) {
                     return TextFormField(
+                      enabled: !store.loading,
                       decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          isDense: true,
-                          labelText: 'Confirmar nova Senha',
-                          errorText: store.passError),
+                        border: OutlineInputBorder(),
+                        isDense: true,
+                        labelText: 'Confirmar nova Senha',
+                        errorText: store.passError,
+                      ),
                       onChanged: store.setPass2,
                       obscureText: true,
                     );
@@ -102,15 +116,22 @@ class EditAccounScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         color: Colors.orange,
+                        disabledColor: Colors.orange.withAlpha(120),
+                        disabledTextColor: Colors.white,
                         elevation: 0,
                         textColor: Colors.white,
-                        onPressed: store.isFormValid ? () {} : null,
-                        child: Text(
-                          'Salvar',
-                          style: TextStyle(
-                            fontSize: 18,
-                          ),
-                        ),
+                        child: store.loading
+                            ? CircularProgressIndicator(
+                                valueColor:
+                                    AlwaysStoppedAnimation(Colors.white),
+                              )
+                            : Text(
+                                'Salvar',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                              ),
+                        onPressed: store.savedPressed,
                       ),
                     );
                   }),
