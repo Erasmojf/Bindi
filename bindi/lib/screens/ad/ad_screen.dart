@@ -4,6 +4,7 @@ import 'package:bindi/stores/user_manager_store.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 
 import 'components/bottom_bar.dart';
@@ -28,12 +29,16 @@ class AdScreen extends StatelessWidget {
         centerTitle: true,
         actions: [
           if (ad.status == AdStatus.ACTIVE && userManagerStore.isLoggedIn)
-            IconButton(
-              icon: Icon(
-                Icons.favorite_border,
-              ),
-              onPressed: () => favoriteStore.toggleFavorite(ad),
-            )
+            Observer(builder: (_) {
+              return IconButton(
+                icon: Icon(
+                  favoriteStore.favoriteList.any((a) => a.id == ad.id)
+                      ? Icons.favorite
+                      : Icons.favorite_border,
+                ),
+                onPressed: () => favoriteStore.toggleFavorite(ad),
+              );
+            }),
         ],
       ),
       body: Stack(
