@@ -1,11 +1,29 @@
 import 'package:bindi/components/error_box.dart';
 import 'package:bindi/screens/home/signup/signup_screen.dart';
 import 'package:bindi/stores/login_store.dart';
+import 'package:bindi/stores/user_manager_store.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
+import 'package:mobx/mobx.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final LoginStore loginStore = LoginStore();
+  final UserManagerStore userManagerStore = GetIt.I<UserManagerStore>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    when((_) => userManagerStore.user != null, () {
+      Navigator.of(context).pop();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +53,7 @@ class LoginScreen extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 16, color: Colors.grey[900]),
                     ),
-                    Observer(builder: (_){
+                    Observer(builder: (_) {
                       return Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: ErrorBox(
@@ -134,26 +152,6 @@ class LoginScreen extends StatelessWidget {
                         ),
                       );
                     }),
-                    // Observer(builder: (_) {
-                    //   return  Container(
-                    //     height: 40,
-                    //     margin: const EdgeInsets.only(top: 20, bottom: 12),
-                    //     child: ElevatedButton(
-                    //
-                    //       child: Text('ENTRAR'),
-                    //       style: ElevatedButton.styleFrom(
-                    //         primary: Colors.orange,
-                    //         onPrimary: Colors.white,
-                    //         textStyle: TextStyle(
-                    //           fontSize: 16,
-                    //         ),
-                    //         shape: RoundedRectangleBorder(
-                    //             borderRadius: BorderRadius.circular(22)),
-                    //       ),
-                    //       onPressed: loginStore.loginPressed,
-                    //     ),
-                    //   );
-                    // }),
                     Divider(
                       color: Colors.black,
                     ),

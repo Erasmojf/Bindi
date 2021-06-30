@@ -1,8 +1,8 @@
+import 'package:bindi/helpers/extensions.dart';
 import 'package:bindi/repositories/user_repository.dart';
 import 'package:bindi/stores/user_manager_store.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
-import 'package:bindi/helpers/extensions.dart';
 
 part 'login_store.g.dart';
 
@@ -44,7 +44,7 @@ abstract class _LoginStore with Store {
   @action
   Future<void> _login() async {
     loading = true;
-
+    error = null;
     try {
       final user = await UserRepository().loginWithEmail(email, password);
       GetIt.I<UserManagerStore>().setUser(user);

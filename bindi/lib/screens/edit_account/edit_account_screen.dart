@@ -1,8 +1,10 @@
 import 'package:bindi/stores/edit_account_store.dart';
+import 'package:bindi/stores/page_store.dart';
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 class EditAccounScreen extends StatelessWidget {
@@ -145,7 +147,11 @@ class EditAccounScreen extends StatelessWidget {
                       color: Colors.red,
                       elevation: 0,
                       textColor: Colors.white,
-                      onPressed: () {},
+                      onPressed: () {
+                        store.logout();
+                        GetIt.I<PageStore>().setPage(0);
+                        Navigator.of(context).pop();
+                      },
                       child: Text(
                         'Sair',
                         style: TextStyle(

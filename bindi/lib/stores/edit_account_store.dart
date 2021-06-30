@@ -102,4 +102,6 @@ abstract class _EditAccountStore with Store {
     }
     loading = false;
   }
+
+  void logout() => userManagerStore.logout();
 }
