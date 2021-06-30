@@ -1,5 +1,6 @@
 import 'package:bindi/screens/base/base_screen.dart';
 import 'package:bindi/stores/category_store.dart';
+import 'package:bindi/stores/favorite_store.dart';
 import 'package:bindi/stores/home_store.dart';
 import 'package:bindi/stores/page_store.dart';
 import 'package:bindi/stores/user_manager_store.dart';
@@ -20,6 +21,7 @@ void setupLocators() {
   GetIt.I.registerSingleton(HomeStore());
   GetIt.I.registerSingleton(UserManagerStore());
   GetIt.I.registerSingleton(CategoryStore());
+  GetIt.I.registerSingleton(FavoriteStore());
 }
 
 Future<void> initializeParse() async {
