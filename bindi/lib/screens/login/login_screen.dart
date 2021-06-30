@@ -21,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
     super.initState();
 
     when((_) => userManagerStore.user != null, () {
-      Navigator.of(context).pop();
+      Navigator.of(context).pop(true);
     });
   }
 
