@@ -47,6 +47,7 @@ dependencies:
   readmore: ^2.1.0
   url_launcher: ^6.0.7
   toggle_switch: ^1.2.0
+  data_connection_checker: ^0.3.4
 
 dev_dependencies:
   flutter_test:
