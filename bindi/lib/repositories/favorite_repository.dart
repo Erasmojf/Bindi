@@ -5,6 +5,28 @@ import 'package:bindi/repositories/table_keys.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 
 class FavoriteRepository {
+  Future<List<Ad>> getFavorites(User user) async {
+    final queryBuilder =
+        QueryBuilder<ParseObject>(ParseObject(keyFavoritesTable));
+
+    queryBuilder.whereEqualTo(keyFavoritesOwner, user.id);
+    queryBuilder.includeObject([keyFavoritesAd, 'ad.owner']);
+
+    final response = await queryBuilder.query();
+
+    if (response.success && response.results != null) {
+      return response.results
+          .map(
+            (po) => Ad.fromParse(po.get(keyFavoritesAd)),
+          )
+          .toList();
+    } else if (response.success && response.results == null) {
+      return [];
+    } else {
+      return Future.error(ParseErrors.getDescription(response.error.code));
+    }
+  }
+
   Future<void> save({Ad ad, User user}) async {
     final favoriteObject = ParseObject(keyFavoritesTable);
 
