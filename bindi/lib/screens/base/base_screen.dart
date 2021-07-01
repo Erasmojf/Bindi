@@ -1,5 +1,6 @@
-import 'package:bindi/screens/account/accounnt_screen.dart';
+import 'package:bindi/screens/account/account_screen.dart';
 import 'package:bindi/screens/create/create_screen.dart';
+import 'package:bindi/screens/favorites/favorites_screen.dart';
 import 'package:bindi/screens/home/home_screen.dart';
 import 'package:bindi/stores/page_store.dart';
 import 'package:flutter/material.dart';
@@ -34,9 +35,7 @@ class _BaseScreenState extends State<BaseScreen> {
           Container(
             color: Colors.red,
           ),
-          Container(
-            color: Colors.amber,
-          ),
+          FavoritesScreen(),
           AccountScreen(),
         ],
       ),
